@@ -1,5 +1,12 @@
-﻿using Tarteeb.Importer.DataBase.DAL;
-using Tarteeb.Importer.Service.ClientService;
+﻿//===========================
+// Copyright (c) Tarteeb LLC
+// Powering True Leadership
+//===========================
+
+using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
+using Google.Apis.Sheets.v4.Data;
+using OfficeOpenXml;
 
 namespace Tarteeb.Importer
 {
@@ -7,25 +14,23 @@ namespace Tarteeb.Importer
     {
         static async Task Main()
         {
-            var clientService = new ClientService();
+          string path = "D:\\dbExcel.xlsx";
 
-            //await clientService.AddAsync(new Models.Clients.Model.Client()
-            //{
-            //    Id = Guid.Empty,
-            //    FirstName = "h = k",
-            //    LastName = string.Empty,
-            //    BirthDate = new DateTime(2010,10,19),
-            //    Email = "wiufeh ijhu "
-            //}) ;
-            // Client client = await clientService.GetAsync(p => p.FirstName == "h = k");
-            //Console.WriteLine(client.LastName);  
-
-            Broker broker = new Broker();
-
-            await broker.DeleteAsync(p => p.LastName == string.Empty);
+            if (File.Exists(path))
+            {
+                using SpreadsheetDocument spreadsheet = new  SpreadsheetDocument(path,SpreadsheetDocumentType.Workbook,);
+            }
+        }
 
 
+        public static DateTimeOffset CreateRandomTime()
+        {
+            Random random = new Random();
+            int year = random.Next(1940, DateTimeOffset.Now.Year - 1);
+            int month = random.Next(1, 12);
+            int day = random.Next(1, 30);
 
+            return new DateTime(year, month, day);
 
         }
     }

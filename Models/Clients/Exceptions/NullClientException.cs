@@ -1,13 +1,11 @@
 ﻿using Xeptions;
 
-namespace Tarteeb.Importer.Models.Clients.ClientExceptions
+namespace Tarteeb.Importer.Models.Clients.Exceptions
 {
     internal class NullClientException : Xeption
     {
-        public NullClientException() : base(message: "Client is null")
+        public NullClientException(Exception innerException)
+            : base(message: "Client is null", innerException)
         { }
-
-
-
     }
 }

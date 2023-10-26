@@ -5,8 +5,8 @@
 
 namespace Tarteeb.Importer.Brokers.DateTimeBrokers
 {
-    internal class DateTimeBroker : IDateTimeBroker
+    internal interface IDateTimeBroker
     {
-        public DateTimeOffset GetCurrentTime() => DateTimeOffset.UtcNow;
+        DateTimeOffset GetCurrentTime();
     }
 }

@@ -1,8 +1,6 @@
-﻿using EFxceptions.Models.Exceptions;
-using Microsoft.EntityFrameworkCore;
-using Tarteeb.Importer.Models.Clients.ClientExceptions;
+﻿using Microsoft.EntityFrameworkCore;
+using Tarteeb.Importer.Models.Clients;
 using Tarteeb.Importer.Models.Clients.Exceptions;
-using Tarteeb.Importer.Models.Clients.Model;
 using Xeptions;
 
 namespace Tarteeb.Importer.Service.ClientService
@@ -25,12 +23,12 @@ namespace Tarteeb.Importer.Service.ClientService
             {
                 throw CreateValidationException(invalidClientException);
             }
-            catch (DuplicateKeyException duplicateKeyException)
-            {
-                var alreadyExistsClientException
-                    = new AlreadyExistsClientException(duplicateKeyException);
-                throw CreateDependencyException(alreadyExistsClientException);
-            }
+            //catch (DuplicateKeyException duplicateKeyException)
+            //{
+            //    var alreadyExistsClientException
+            //        = new AlreadyExistsClientException(duplicateKeyException);
+            //    throw CreateDependencyException(alreadyExistsClientException);
+            //}
             catch (DbUpdateConcurrencyException dbUpdateConcurrencyException)
             {
                 var lockedClientException = new LockedClientException(dbUpdateConcurrencyException);
@@ -43,11 +41,11 @@ namespace Tarteeb.Importer.Service.ClientService
                 = new FailedStorageClientException(dbUpdateException);
                 throw CreateDependencyException(failedStorageClientException);
             }
-            catch(Exception exception)
-            {
-                var clientServiceException = new ClientServiceException(exception);
-                CreateClientServiceException(exception);
-            }
+            /* catch(Exception exception)
+             {
+                 var clientServiceException = new ClientServiceException(exception);
+                 CreateClientServiceException(exception);
+             }*/
 
         }
 
@@ -79,7 +77,7 @@ namespace Tarteeb.Importer.Service.ClientService
 
         private ClientValidationException CreateValidationException(Xeption xeption)
         {
-            var clientValidationException = new ClientValidationException(xeption);
+            var clientValidationException = new ClientValidationException();
             return clientValidationException;
         }
 

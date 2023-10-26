@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Text.RegularExpressions;
-using Tarteeb.Importer.Models.Clients.ClientExceptions;
-using Tarteeb.Importer.Models.Clients.Model;
+using Tarteeb.Importer.Models.Clients;
+using Tarteeb.Importer.Models.Clients.Exceptions;
 using Xeptions;
 
 namespace Tarteeb.Importer.Service.ClientService
@@ -9,8 +9,9 @@ namespace Tarteeb.Importer.Service.ClientService
     internal class ClientValidationException : Xeption
     {
 
-        internal ClientValidationException(Xeption innerException) : base(message: " Client is invalid",innerException)
-        { }
+        //internal ClientValidationException(Xeption innerException)
+        //    : base(message: "Client is invalid", innerException)
+        //{ }
 
         /// <summary>
         /// 
@@ -21,7 +22,7 @@ namespace Tarteeb.Importer.Service.ClientService
             =>
             new
             {
-                Condition = id.Equals(default) || id == null,
+                Condition = id.Equals(default),
                 Message = $"{nameof(id)} is required"
             };
 
@@ -76,7 +77,7 @@ namespace Tarteeb.Importer.Service.ClientService
         /// <param name="validations"></param>
         public void Validate(params (dynamic rule, string parameter)[] validations)
         {
-            var invalidClientException = new InvalidClientException();
+            var invalidClientException = new InvalidClientException(new Exception());
 
             foreach ((dynamic rule, string parameter) in validations)
             {
@@ -100,9 +101,9 @@ namespace Tarteeb.Importer.Service.ClientService
         /// <exception cref="NullClientException"></exception>
         public void ValidateClientToNull(Client client)
         {
-            if (client.Equals(null))
+            if (client is null)
             {
-                throw new NullClientException();
+                throw new NullClientException(new Exception());
             }
         }
 
@@ -112,8 +113,9 @@ namespace Tarteeb.Importer.Service.ClientService
         {
             try
             {
-                var _clientValidation = new ClientValidation();
-                var invalidClientException = new InvalidClientException();
+                var _clientValidation = new ClientValidationException();
+                var invalidClientException = new InvalidClientException(new Exception());
+
                 _clientValidation.Validate(
                                  (rule: _clientValidation.IsInvalid(client.Id), parameter: nameof(Client.Id)),
                                  (rule: _clientValidation.IsInvalid(client.FirstName), parameter: nameof(Client.FirstName)),

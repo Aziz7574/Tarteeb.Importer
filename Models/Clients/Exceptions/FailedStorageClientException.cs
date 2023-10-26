@@ -6,7 +6,7 @@ namespace Tarteeb.Importer.Models.Clients.Exceptions
     {
         public FailedStorageClientException(Exception innerException)
             : base(message: "Client failed storage exception,contact support", innerException)
-        {}
+        { }
     }
 
 }
